@@ -5,6 +5,7 @@
 SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
+COMPILE_ARGS += -g2012
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = project.v
 
