@@ -1,4 +1,4 @@
-module UART_TX_TOP #(parameter DATA_WIDTH = 8,
+module ‎tt_um_UART_TX #(parameter DATA_WIDTH = 8,
 	                 parameter logic START_BIT  = 0,
 	                 parameter logic STOP_BIT   = 1)
 (
