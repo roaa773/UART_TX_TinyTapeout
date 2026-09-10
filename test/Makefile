@@ -7,7 +7,7 @@ FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 COMPILE_ARGS += -g2012
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = FSM.sv MUX.sv parity_calc.sv serializer.sv UART_TX_TOP.sv
 
 ifneq ($(GATES),yes)
 
