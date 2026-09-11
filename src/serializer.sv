@@ -18,13 +18,13 @@ always @(posedge clk or negedge rst) begin
     end
 	else if(ser_en) begin
 			if(cnt == 0)
-				{data_reg,ser_data} = {1'b0,parallel_data};
+			{data_reg,ser_data} <= {1'b0,parallel_data};
 			else
-			    {data_reg,ser_data} = {1'b0,data_reg};		
+			{data_reg,ser_data} <= {1'b0,data_reg};		
 		end
 		else begin
-			ser_data = 0;
-			data_reg = 0;
+			ser_data <= 0;
+			data_reg <= 0;
 		end
 end
 
