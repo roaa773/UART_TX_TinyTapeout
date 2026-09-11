@@ -25,6 +25,9 @@ async def data_tx(dut,data):
     dut.ui_in.value = data
     await FallingEdge(dut.clk)
     dut.uio_in.value = int(dut.uio_in.value) & ~(1 << 2)
+    dut._log.info(
+        f"data_tx END: uio_in = {int(dut.uio_in.value):08b}"
+    )
 
 async def check_data_out(dut,data_out_expec,num_test):
     if int(dut.uio_in.value[1]) == 1:
