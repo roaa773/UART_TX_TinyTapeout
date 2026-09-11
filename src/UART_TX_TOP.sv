@@ -67,4 +67,4 @@ MUX mux(
 .mux_out  (uo_out[0])
 );
 
-endmodule : UART_TX_TOP
+endmodule 
