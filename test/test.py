@@ -11,9 +11,6 @@ from cocotb.triggers import FallingEdge
 #output TX_OUT, uo_out[0]
 #output BUSY  uo_out[1]
 
-DATA_WIDTH = 8
-FRAME_WIDTH = 11
-TEST_CASES = 6
 
 async def data_tx(dut,data):
     dut.uio_in.value[2] = 1   
