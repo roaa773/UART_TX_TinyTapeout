@@ -1,6 +1,5 @@
 `default_nettype none
-module tt_um_UART_TX #(parameter DATA_WIDTH = 8,
-	                 parameter logic START_BIT  = 0,
+module tt_um_UART_TX #(parameter logic START_BIT  = 0,
 	                 parameter logic STOP_BIT   = 1)
 (
 	input  wire       ena,      // always 1 when the design is powered, so you can ignore it
