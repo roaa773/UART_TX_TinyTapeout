@@ -19,7 +19,7 @@ async def data_tx(dut,data):
     dut.uio_in.value = int(dut.uio_in.value) & ~(1 << 2)
 
 async def check_data_out(dut,data_out_expec,num_test):
-    if (int(dut.uio_in.value) >> 1) & 1:
+    if int(dut.uio_in.value[1]) == 1:
         num = 11
     else:
         num = 10
@@ -27,7 +27,7 @@ async def check_data_out(dut,data_out_expec,num_test):
     data_out_dut = 0
 
     for i in range(num):
-        bit = int(dut.uo_out.value) & 1
+        bit = int(dut.uo_out.value[0])
         data_out_dut |= (bit << i) 
         await FallingEdge(dut.clk)
 
