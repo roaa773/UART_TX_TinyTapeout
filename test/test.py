@@ -8,8 +8,6 @@ from cocotb.triggers import FallingEdge
 DATA_WIDTH = 8
 FRAME_WIDTH = 11
 TEST_CASES = 6
-
-def initialize(dut):
     
 
 @cocotb.test()
