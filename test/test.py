@@ -16,7 +16,7 @@ FRAME_WIDTH = 11
 TEST_CASES = 6
 
 async def data_tx(dut,data):
-    dut.uio_in.value[2] = 1   #data_valid
+    dut.uio_in.value[2] = 1   
     dut.ui_in.value = data
     await FallingEdge(dut.clk)
     dut.uio_in.value[2] = 0
@@ -34,13 +34,10 @@ async def check_data_out(dut,data_out_expec,num_test):
         data_out_dut |= (bit << i) 
         await FallingEdge(dut.clk)
 
-    if data_out_dut == data_out_expec:
-        dut._log.info(
-            f"Test Case {num_test} is succeeded"
-        )
-    else:
-        dut._log.error(
+    assert data_out_dut == data_out_expec, (
             f"Test Case {num_test} is failed\n"
+            f"Expected={data_out_expec}, "
+            f"Got={data_out_dut}"
         )
 
 
