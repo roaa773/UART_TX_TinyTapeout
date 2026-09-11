@@ -27,7 +27,7 @@ async def test_project(dut):
     for _ in range(2):
         await FallingEdge(dut.clk)
     #TX_OUT = 1 & BUSY = 0
-    if int(dut.uo_out) == 1:
+    if int(dut.uo_out.value) == 1:
         dut._log.info(
             f"Reset is passed,"
             f"BUSY={int(dut.uo_out[1].value)},"
