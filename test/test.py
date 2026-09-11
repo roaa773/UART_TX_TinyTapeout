@@ -5,11 +5,11 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge
 
-//input  PAR_TYP, uio_in[0]
-//input  PAR_EN, uio_in[1]
-//input  DATA_VALID, uio_in[2]
-//output TX_OUT, uo_out[0]
-//output BUSY  uo_out[1]
+#input  PAR_TYP, uio_in[0]
+#input  PAR_EN, uio_in[1]
+#input  DATA_VALID, uio_in[2]
+#output TX_OUT, uo_out[0]
+#output BUSY  uo_out[1]
 
 DATA_WIDTH = 8
 FRAME_WIDTH = 11
