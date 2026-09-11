@@ -123,7 +123,7 @@ async def test_project(dut):
         )
     
     for _ in range(4):
-        await FallingEdge(dut.CLK_tb)
+        await FallingEdge(dut.clk)
     
     # NO PARITY
     dut.uio_in.value[1] = 0
