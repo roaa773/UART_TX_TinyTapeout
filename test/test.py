@@ -76,7 +76,7 @@ async def test_project(dut):
     dut.rst_n.value = 1
 
      # Read input files
-    with open("DATA_h.txt",r) as f:
+    with open("DATA_h.txt","r") as f:
         DATA_IN = [
             int(line.strip(), 16)
             for line in f
