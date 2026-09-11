@@ -13,10 +13,6 @@ from cocotb.triggers import FallingEdge
 
 
 async def data_tx(dut,data, par_en, par_typ):
-    #dut._log.info(
-    #    f"data_tx BEFORE: uio_in = {int(dut.uio_in.value):08b}"
-    #)
-
     uio_value = (
         (par_typ << 0) |
         (par_en  << 1) |
@@ -41,11 +37,6 @@ async def data_tx(dut,data, par_en, par_typ):
     )
 
 async def check_data_out(dut,data_out_expec,num_test, par_en):
-    #if int(dut.uio_in.value[1]) == 1:
-    #    num = 11
-    #else:
-    #    num = 10
-
     num = 11 if par_en else 10
     
     data_out_dut = 0
@@ -91,13 +82,13 @@ async def test_project(dut):
         dut._log.info(
             f"Reset is passed,"
             f"BUSY={int(dut.uo_out.value[1])},"
-            f"TX={int(dut.uo_out.value[0])},"
+            f"TX={int(dut.uo_out.value[0])}"
         )
     else:
         dut._log.error(
             f"Reset is failed,"
             f"BUSY={int(dut.uo_out.value[1])},"
-            f"TX={int(dut.uo_out.value[0])},"
+            f"TX={int(dut.uo_out.value[0])}"
         )
     dut.rst_n.value = 1
 
@@ -120,7 +111,6 @@ async def test_project(dut):
 
     # Set the input values you want to test
     # ODD PARITY
-    #dut.uio_in.value = 0b00000011
     for TEST_NUM in range(0, 2):
         await data_tx(
             dut,
@@ -137,7 +127,6 @@ async def test_project(dut):
         )
 
     # EVEN PARITY
-    #dut.uio_in.value = 0b00000010
     for TEST_NUM in range(2, 4):
         await data_tx(
             dut,
@@ -157,7 +146,6 @@ async def test_project(dut):
         await FallingEdge(dut.clk)
     
     # NO PARITY
-    #dut.uio_in.value = 0b00000000
     for TEST_NUM in range(4, 6):
         await data_tx(
             dut,
@@ -174,11 +162,3 @@ async def test_project(dut):
         )
     
     dut._log.info("UART TX test completed")
-
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    #assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
