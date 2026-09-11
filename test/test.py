@@ -60,7 +60,7 @@ async def check_data_out(dut,data_out_expec,num_test, par_en):
         data_out_dut |= (bit << i) 
         await FallingEdge(dut.clk)
 
-    assert data_out_dut == data_out_expec[num-1:0], (
+    assert data_out_dut == data_out_expec, (
             f"Test Case {num_test} is failed\n"
             f"Expected={data_out_expec}, "
             f"Got={data_out_dut}"
