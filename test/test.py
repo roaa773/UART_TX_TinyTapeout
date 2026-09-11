@@ -13,10 +13,10 @@ from cocotb.triggers import FallingEdge
 
 
 async def data_tx(dut,data):
-    dut.uio_in.value[2] = 1   
+    dut.uio_in.value = int(dut.uio_in.value) | (1 << 2) 
     dut.ui_in.value = data
     await FallingEdge(dut.clk)
-    dut.uio_in.value[2] = 0
+    dut.uio_in.value = int(dut.uio_in.value) & ~(1 << 2)
 
 async def check_data_out(dut,data_out_expec,num_test):
     if int(dut.uio_in.value[1]) == 1:
@@ -88,8 +88,7 @@ async def test_project(dut):
 
     # Set the input values you want to test
     # ODD PARITY
-    dut.uio_in.value[1] = 1
-    dut.uio_in.value[0] = 1
+    dut.uio_in.value = 0b00000011
     for TEST_NUM in range(0, 2):
         await data_tx(
             dut,
@@ -103,7 +102,7 @@ async def test_project(dut):
         )
 
     # EVEN PARITY
-    dut.uio_in.value[0] = 0
+    dut.uio_in.value = 0b00000010
     for TEST_NUM in range(2, 4):
         await data_tx(
             dut,
@@ -120,7 +119,7 @@ async def test_project(dut):
         await FallingEdge(dut.clk)
     
     # NO PARITY
-    dut.uio_in.value[1] = 0
+    dut.uio_in.value = 0b00000000
     for TEST_NUM in range(4, 6):
         await data_tx(
             dut,
