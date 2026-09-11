@@ -3,15 +3,21 @@
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles
+from cocotb.triggers import FallingEdge
 
+DATA_WIDTH = 8
+FRAME_WIDTH = 11
+TEST_CASES = 6
+
+def initialize(dut):
+    
 
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
 
     # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, unit="us")
+    clock = Clock(dut.clk, 10, unit="ns")
     cocotb.start_soon(clock.start())
 
     # Reset
@@ -20,7 +26,21 @@ async def test_project(dut):
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    for _ in range(2):
+        await FallingEdge(dut.clk)
+    #TX_OUT = 1 & BUSY = 0
+    if int(dut.uo_out) == 1:
+        dut._log.info(
+            f"Reset is passed,"
+            f"BUSY={int(dut.uo_out[1].value)},"
+            f"TX={int(dut.uo_out[0].value)},"
+        )
+    else:
+        dut._log.error(
+            f"Reset is failed,"
+            f"BUSY={int(dut.uo_out[1].value)},"
+            f"TX={int(dut.uo_out[0].value)},"
+        )
     dut.rst_n.value = 1
 
     dut._log.info("Test project behavior")
@@ -28,7 +48,7 @@ async def test_project(dut):
     # Set the input values you want to test
     dut.uio_in.value = 0b00000111
     dut.ui_in.value = 0xF2
-    await ClockCycles(dut.clk, 1)
+    await FallingEdge(dut.clk)
     dut.uio_in.value = 0b00000011
     
     
