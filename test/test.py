@@ -93,12 +93,54 @@ async def test_project(dut):
     dut._log.info("Test project behavior")
 
     # Set the input values you want to test
-    dut.uio_in.value = 0b00000111
-    dut.ui_in.value = 0xF2
-    await FallingEdge(dut.clk)
-    dut.uio_in.value = 0b00000011
+    # ODD PARITY
+    dut.uio_in.value[1] = 1
+    dut.uio_in.value[0] = 1
+    for TEST_NUM in range(0, 2):
+        await data_tx(
+            dut,
+            DATA_IN[TEST_NUM]
+        )
+
+        await check_data_out(
+            dut,
+            Expec_Outs[TEST_NUM],
+            TEST_NUM
+        )
+
+    # EVEN PARITY
+    dut.uio_in.value[0] = 0
+    for TEST_NUM in range(2, 4):
+        await data_tx(
+            dut,
+            DATA_IN[TEST_NUM]
+        )
+
+        await check_data_out(
+            dut,
+            Expec_Outs[TEST_NUM],
+            TEST_NUM
+        )
     
+    for _ in range(4):
+        await FallingEdge(dut.CLK_tb)
     
+    # NO PARITY
+    dut.uio_in.value[1] = 0
+    for TEST_NUM in range(4, 6):
+        await data_tx(
+            dut,
+            DATA_IN[TEST_NUM]
+        )
+
+        await check_data_out(
+            dut,
+            Expec_Outs[TEST_NUM],
+            TEST_NUM
+        )
+    
+    dut._log.info("UART TX test completed")
+
 
     # The following assersion is just an example of how to check the output values.
     # Change it to match the actual expected output of your module:
