@@ -7,9 +7,9 @@ module tt_um_UART_TX #(parameter logic START_BIT  = 0,
 	input  rst_n,
 	input [7:0] ui_in,
 	input  wire [7:0] uio_in,   // IOs: Input path
-	output reg [7:0] uio_out,  // IOs: Output path
+	output wire [7:0] uio_out,  // IOs: Output path
     output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-	output reg [7:0] uo_out
+	output wire [7:0] uo_out
 );
 	
 //input  PAR_TYP, uio_in[0]
