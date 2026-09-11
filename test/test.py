@@ -13,7 +13,15 @@ from cocotb.triggers import FallingEdge
 
 
 async def data_tx(dut,data):
-    dut.uio_in.value = int(dut.uio_in.value) | (1 << 2) 
+    dut._log.info(
+        f"data_tx BEFORE: uio_in = {int(dut.uio_in.value):08b}"
+    )
+
+    dut.uio_in.value = int(dut.uio_in.value) | (1 << 2)
+
+    dut._log.info(
+        f"data_tx AFTER: uio_in = {int(dut.uio_in.value):08b}"
+    )
     dut.ui_in.value = data
     await FallingEdge(dut.clk)
     dut.uio_in.value = int(dut.uio_in.value) & ~(1 << 2)
