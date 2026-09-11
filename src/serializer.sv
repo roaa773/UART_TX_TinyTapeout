@@ -11,8 +11,12 @@ module serializer #(parameter DATA_WIDTH = 8)
 reg [2:0] cnt;
 reg [DATA_WIDTH-1:0] data_reg;
 
-always @(*) begin 
-		if(ser_en) begin
+always @(posedge clk or negedge rst) begin
+    if(~rst) begin
+        data_reg <= 0;
+        ser_data <= 0;
+    end
+	else if(ser_en) begin
 			if(cnt == 0)
 				{data_reg,ser_data} = {1'b0,parallel_data};
 			else
