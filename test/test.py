@@ -12,28 +12,41 @@ from cocotb.triggers import FallingEdge
 #output BUSY  uo_out[1]
 
 
-async def data_tx(dut,data):
-    dut._log.info(
-        f"data_tx BEFORE: uio_in = {int(dut.uio_in.value):08b}"
-    )
+async def data_tx(dut,data, par_en, par_typ):
+    #dut._log.info(
+    #    f"data_tx BEFORE: uio_in = {int(dut.uio_in.value):08b}"
+    #)
 
-    dut.uio_in.value = int(dut.uio_in.value) | (1 << 2)
+    uio_value = (
+        (par_typ << 0) |
+        (par_en  << 1) |
+        (1       << 2)
+    )
+    dut.uio_in.value = uio_value
 
     dut._log.info(
         f"data_tx AFTER: uio_in = {int(dut.uio_in.value):08b}"
     )
     dut.ui_in.value = data
     await FallingEdge(dut.clk)
-    dut.uio_in.value = int(dut.uio_in.value) & ~(1 << 2)
+    
+    uio_value = (
+        (par_typ << 0) |
+        (par_en  << 1)
+    )
+
+    dut.uio_in.value = uio_value
     dut._log.info(
         f"data_tx END: uio_in = {int(dut.uio_in.value):08b}"
     )
 
-async def check_data_out(dut,data_out_expec,num_test):
-    if int(dut.uio_in.value[1]) == 1:
-        num = 11
-    else:
-        num = 10
+async def check_data_out(dut,data_out_expec,num_test, par_en):
+    #if int(dut.uio_in.value[1]) == 1:
+    #    num = 11
+    #else:
+    #    num = 10
+
+    num = 11 if par_en else 10
     
     data_out_dut = 0
 
@@ -104,48 +117,57 @@ async def test_project(dut):
 
     # Set the input values you want to test
     # ODD PARITY
-    dut.uio_in.value = 0b00000011
+    #dut.uio_in.value = 0b00000011
     for TEST_NUM in range(0, 2):
         await data_tx(
             dut,
-            DATA_IN[TEST_NUM]
+            DATA_IN[TEST_NUM],
+            par_en=1,
+            par_typ=1
         )
 
         await check_data_out(
             dut,
             Expec_Outs[TEST_NUM],
-            TEST_NUM
+            TEST_NUM,
+            par_en=1
         )
 
     # EVEN PARITY
-    dut.uio_in.value = 0b00000010
+    #dut.uio_in.value = 0b00000010
     for TEST_NUM in range(2, 4):
         await data_tx(
             dut,
-            DATA_IN[TEST_NUM]
+            DATA_IN[TEST_NUM],
+            par_en=1,
+            par_typ=0
         )
 
         await check_data_out(
             dut,
             Expec_Outs[TEST_NUM],
-            TEST_NUM
+            TEST_NUM,
+            par_en=1
         )
     
     for _ in range(4):
         await FallingEdge(dut.clk)
     
     # NO PARITY
-    dut.uio_in.value = 0b00000000
+    #dut.uio_in.value = 0b00000000
     for TEST_NUM in range(4, 6):
         await data_tx(
             dut,
-            DATA_IN[TEST_NUM]
+            DATA_IN[TEST_NUM],
+            par_en=0,
+            par_typ=0
         )
 
         await check_data_out(
             dut,
             Expec_Outs[TEST_NUM],
-            TEST_NUM
+            TEST_NUM,
+            par_en=0
         )
     
     dut._log.info("UART TX test completed")
