@@ -75,6 +75,21 @@ async def test_project(dut):
         )
     dut.rst_n.value = 1
 
+     # Read input files
+    with open("DATA_h.txt",r) as f:
+        DATA_IN = [
+            int(line.strip(), 16)
+            for line in f
+            if line.strip()
+        ]
+
+    with open("Expec_Out_b.txt", "r") as f:
+        Expec_Outs = [
+            int(line.strip(), 2)
+            for line in f
+            if line.strip()
+        ]
+
     dut._log.info("Test project behavior")
 
     # Set the input values you want to test
