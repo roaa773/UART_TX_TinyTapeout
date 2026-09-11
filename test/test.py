@@ -5,10 +5,44 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge
 
+//input  PAR_TYP, uio_in[0]
+//input  PAR_EN, uio_in[1]
+//input  DATA_VALID, uio_in[2]
+//output TX_OUT, uo_out[0]
+//output BUSY  uo_out[1]
+
 DATA_WIDTH = 8
 FRAME_WIDTH = 11
 TEST_CASES = 6
+
+async def data_tx(dut,data):
+    dut.uio_in.value[2] = 1   #data_valid
+    dut.ui_in.value = data
+    await FallingEdge(dut.clk)
+    dut.uio_in.value[2] = 0
+
+async def check_data_out(dut,data_out_expec,num_test):
+    if int(dut.uio_in.value[1]) == 1:
+        num = 11
+    else:
+        num = 10
     
+    data_out_dut = 0
+
+    for i in range(num):
+        bit = int(dut.uo_out.value[0])
+        data_out_dut |= (bit << i) 
+        await FallingEdge(dut.clk)
+
+    if data_out_dut == data_out_expec:
+        dut._log.info(
+            f"Test Case {num_test} is succeeded"
+        )
+    else:
+        dut._log.error(
+            f"Test Case {num_test} is failed\n"
+        )
+
 
 @cocotb.test()
 async def test_project(dut):
