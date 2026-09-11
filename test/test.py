@@ -28,6 +28,9 @@ async def check_data_out(dut,data_out_expec,num_test):
 
     for i in range(num):
         bit = int(dut.uo_out.value[0])
+        dut._log.info(
+            f"TEST {num_test}: bit[{i}] = {bit}"
+        )
         data_out_dut |= (bit << i) 
         await FallingEdge(dut.clk)
 
