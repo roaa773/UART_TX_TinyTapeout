@@ -30,14 +30,14 @@ async def test_project(dut):
     if int(dut.uo_out.value) == 1:
         dut._log.info(
             f"Reset is passed,"
-            f"BUSY={int(dut.uo_out[1].value)},"
-            f"TX={int(dut.uo_out[0].value)},"
+            f"BUSY={int(dut.uo_out.value[1])},"
+            f"TX={int(dut.uo_out.value[0])},"
         )
     else:
         dut._log.error(
             f"Reset is failed,"
-            f"BUSY={int(dut.uo_out[1].value)},"
-            f"TX={int(dut.uo_out[0].value)},"
+            f"BUSY={int(dut.uo_out.value[1])},"
+            f"TX={int(dut.uo_out.value[0])},"
         )
     dut.rst_n.value = 1
 
