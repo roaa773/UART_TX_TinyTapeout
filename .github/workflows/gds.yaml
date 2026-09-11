@@ -26,24 +26,24 @@ jobs:
         uses: TinyTapeout/tt-gds-action/precheck@ttihp26b
 
   gl_test:
-  needs: gds
-  runs-on: ubuntu-24.04
+    needs: gds
+    runs-on: ubuntu-24.04
 
-  steps:
-    - name: checkout repo
-      uses: actions/checkout@v6
-      with:
-        submodules: recursive
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
 
-    - name: GL test
-      uses: TinyTapeout/tt-gds-action/gl_test@ttihp26b
+      - name: GL test
+        uses: TinyTapeout/tt-gds-action/gl_test@ttihp26b
 
-    - name: Upload GL waveform
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: gl-waveform
-        path: test/tb.fst
+      - name: Upload GL waveform
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gl-waveform
+          path: test/tb.fst
 
   viewer:
     needs: gds
