@@ -11,7 +11,8 @@ module tt_um_UART_TX #(parameter logic START_BIT  = 0,
     output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
 	output wire [7:0] uo_out
 );
-	
+
+//input  P_DATA, ui_in
 //input  PAR_TYP, uio_in[0]
 //input  PAR_EN, uio_in[1]
 //input  DATA_VALID, uio_in[2]
