@@ -28,7 +28,7 @@ The module provides `BUSY` status to indicate that a transmission is in progress
 - `DATA_VALID` – Starts a new transmission.
 - `PAR_EN` – Enables/disables the parity bit.
 - `PAR_TYP` – Selects the parity type.
-- `DATA_IN[7:0]` – 8-bit data to be transmitted.
+- `P_DATA[7:0]` – 8-bit data to be transmitted.
 
 ### Outputs
 - `TX_OUT` – Serial UART output.
